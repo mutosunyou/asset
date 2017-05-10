@@ -1,33 +1,8 @@
 <?php
 session_start();
 require_once('../master/prefix.php');
-require_once('../Circular.php');
 
-//回覧メンバーに選ばれている回覧IDを検索する
-$sql='select * from member where userID='.$_SESSION['loginid'];
-$rst=selectData(DB_NAME,$sql);
-
-$sql = 'select id from circular where (';
-if($_POST['own']==1){
-  $sql.=' ownerID='.$_SESSION['loginid'].' or';
-}
-$sql.= ' id in (';
-for($i=0;$i<count($rst);$i++){
-  $sql .= $rst[$i]['circularID'];
-  if($i!=(count($rst)-1)){
-    $sql .= ',';
-  }
-}
-$sql.='))';
-if($_POST['own']==1){
-  $sql.=' and ownerID='.$_SESSION['loginid'];
-}
-
-//デバッグ用
-
-if($_SESSION['loginid']==10042){
-  $sql='select id from circular where 1';
-}
+$sql = 'select id from circular where 1';
  
 if (isset($_POST['searchKey']) && strlen($_POST['searchKey']) > 0) {
   $sql .= ' and (title like "%'.$_POST['searchKey'].'%" or content like "%'.$_POST['searchKey'].'%")';

@@ -2,6 +2,9 @@
 session_start();
 require_once('master/prefix.php');
 
+//ローカルホストのみ
+$_SESSION["login_name"]="武藤　一徳";
+
 //ログイン処理======================================
 $sql = "SELECT * FROM employee";
 $rst = selectData('master',$sql);
@@ -84,31 +87,29 @@ $body.='<input id="userID" class="hidden" value="'.$_SESSION['loginid'].'">';
 //タイトル=========================================
 $body.='<div class="container-fluid">';
 $body.='<div class="container">';
-$body.='<h2 class="toptitle">';
+$body.='<h2>';
 $body.='機器リスト';
 $body.='</h2><hr />';
-$body .=  '<div class="pull-right form-inline">';
-
+$body .= '<div class="pull-right form-inline">';
 $body .= '表示：<select class="form-control" id="ppi">';
 $body .= '<option value="10">10</option>';
 for ($i=1; $i < 11; $i++) {
   $body .= '<option value="'.($i * 20).'">'.($i * 20).'</option>';
 }
-$body .= '</select>件　　';
-$body .=  '<input id="finderfld" class="form-control" type="text">';
-$body .=' <a id="finderbtn" class="btn btn-default">検索</a>
-  <a class="btn btn-success" href="editconst.php">新規案件追加</a>
-  </div>';
+$body .='</select>件　';
+$body .='<input id="finderfld" class="form-control" type="text">';
+$body .='<a id="finderbtn" class="btn btn-default" style="margin:0 10px 0 10px;">検索</a>';
+$body .='<a class="btn btn-success" href="adddevice.php">追加</a>';
+$body .='</div>';
+
 //一番上のエリア
 $body.='<div id="devicelist">';
 $body.='</div>';//一番上のエリア終わり
-
 
 $body.='<div id="ppp"></div>';//デバッグ用
 
 $body.='</div>';//container
 $body.='</div>';//container-fluid
-
 
 //ヘッダー===========================================
 $header ='<script type="text/javascript" src="index.js"></script>';
@@ -121,4 +122,4 @@ $header.='<!--
 $header.='</style>';
 
 //HTML作成===========================================
-echo html('回覧板',$header, $body);
+echo html('資産管理',$header, $body);

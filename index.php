@@ -87,7 +87,18 @@ $body.='<div class="container">';
 $body.='<h2 class="toptitle">';
 $body.='機器リスト';
 $body.='</h2><hr />';
+$body .=  '<div class="pull-right form-inline">';
 
+$body .= '表示：<select class="form-control" id="ppi">';
+$body .= '<option value="10">10</option>';
+for ($i=1; $i < 11; $i++) {
+  $body .= '<option value="'.($i * 20).'">'.($i * 20).'</option>';
+}
+$body .= '</select>件　　';
+$body .=  '<input id="finderfld" class="form-control" type="text">';
+$body .=' <a id="finderbtn" class="btn btn-default">検索</a>
+  <a class="btn btn-success" href="editconst.php">新規案件追加</a>
+  </div>';
 //一番上のエリア
 $body.='<div id="devicelist">';
 $body.='</div>';//一番上のエリア終わり

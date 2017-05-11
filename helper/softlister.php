@@ -2,9 +2,20 @@
 session_start();
 require_once('../master/prefix.php');
 
-$sql = 'select id from device where isalive=1 ';
+echo "rarara";
+$sql='select * from link where deviceID='.$_POST['did'];
+$rst=selectData(DB_NAME,$sql);
+$sql = 'select id from soft where id in (';
+for($i=0;$i<count($rst);$i++){
+  $sql.=$rst[$i]['id'];
+  if($i!=(count($rst)-1)){
+    $sql.=',';
+  }
+}
+$sql.=') and isalive=1 ';
+var_dump($sql);
 if (isset($_POST['searchKey']) && strlen($_POST['searchKey']) > 0) {
-  $sql .= ' and (description like "%'.$_POST['searchKey'].'%" or type like "%'.$_POST['searchKey'].'%" or maker like "%'.$_POST['searchKey'].'%" or name like "%'.$_POST['searchKey'].'%")';
+  $sql .= ' and (name like "%'.$_POST['searchKey'].'%" or ver like "%'.$_POST['searchKey'].'%" or lot like "%'.$_POST['searchKey'].'%" or description like "%'.$_POST['searchKey'].'%")';
 }
 if(isset($_POST['sortKey']) && strlen($_POST['sortKey']) > 0){
   $sql .= ' order by '.$_POST['sortKey'];
@@ -13,30 +24,10 @@ $sql .= ' '.$_POST['sortOrder'];
 $cst = selectData(DB_NAME, $sql);
 //項目数を取得
 $cr = count($cst);
-if ($_POST['itemsPerPage'] != 0) {
-  $sql .= ' limit '.$_POST['itemsPerPage'].' offset '.(($_POST['page'] - 1) * $_POST['itemsPerPage']);
-}
-$cst = selectData(DB_NAME, $sql);
+
 
 $body = '';
 //本文========================================================
-//検索
-$body .= '<div class="pull-left form-inline" style="float:right;margin:0 0 10px 0;">';
-$countofpage = ceil($cr/intval($_POST['itemsPerPage']));
-
-//ページ番号
-$body .='<nav class="form-inline pull-left" style="margin:10px 0 0 0;">';
-$body .='<ul class="pagination pagination-sm" style="margin:0 0 0 0;">';
-for ($i=1; $i <= $countofpage; $i++){
-  $body .= '<li';
-  if ($i == $_POST['page']){
-    $body .= ' class="active"';
-  }
-  $body .= '><a class="pagebtn" name="'.$i.'">'.$i.'</a></li>';
-}
-$body .= '</ul>';
-$body .= '</nav>';
-$body .= '</div>';
 
 //有効なプロミス項目を並べて表示
 $pname = array(
@@ -76,7 +67,6 @@ for($i=0;$i<count($cst);$i++){//指定されたuserIDのデータ全て
   $body.='</td>';
   $body .='<td style="nowrap">'.nameFromUserID($rst[0]['owner']).'</td>';
   $body .='<td style="nowrap">'.$rst[0]['description'].'</td>';
-  $body .='<td style="nowrap"><button sid="'.$rst[0]['id'].'" class="soft btn-xs btn-default">ソフト一覧</button></td>';
   $body .='</tr>';
 }
 $body .= '</table>';

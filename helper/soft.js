@@ -23,7 +23,7 @@ $(function() {
   $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});//カレンダーから日付を選ぶ
   reloadTable();
 //ボタン======================================================
-  $('#devicelist').on('click', '.sorter', function (ev){
+  $('#softlist').on('click', '.sorter', function (ev){
     localStorage.assetpage = 1;
     if (localStorage.assetSortKey == $(ev.target).attr('name')) {
       if (localStorage.assetSortOrder == 'asc') {
@@ -45,14 +45,14 @@ $(function() {
   });
 
 //ページボタン押す
-  $('#devicelist').on('click', '.pagebtn', function (ev){
+  $('#softlist').on('click', '.pagebtn', function (ev){
     localStorage.assetpage = $(ev.target).attr('name');
     reloadTable();
   });
 
-//ページボタン押す
-  $('#devicelist').on('click', '.soft', function (ev){
-   location.href="helper/softlist.php?did="+$(ev.target).attr('sid');
+//編集ボタン押す
+  $('#softlist').on('click', '.soft', function (ev){
+   location.href="softlist.php?did="+$(ev.target).attr('sid');
   });
 
 
@@ -78,16 +78,16 @@ $(function() {
 //アンケートを表示する。
 function reloadTable(){
   $.post(
-    "helper/devicelist.php",
+    "softlister.php",
     {
-      "page":localStorage.assetpage,
+      "did":$('#did').val(),
       "itemsPerPage": $('#ppi').val(),
       "sortKey": localStorage.assetSortKey,
       "sortOrder": localStorage.assetSortOrder,
       "searchKey": localStorage.assetSearchKey
     },
     function(data){
-      $('#devicelist').html(data);
+      $('#softlist').html(data);
     }
   );
 }

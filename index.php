@@ -92,12 +92,11 @@ $body .='<input id="finderfld" class="form-control" type="text">';
 $body .='<a id="finderbtn" class="btn btn-default" style="margin:0 10px 0 10px;">検索</a>';
 $body .='<a class="btn btn-success" href="helper/editdevice.php">追加</a>';
 $body .='</div>';
+
 $body .='<div class="clearfix"></div>';
 
 //一番上のエリア
 $body.='<div id="devicelist"></div>';
-
-$body.='<div id="ppp"></div>';//デバッグ用
 
 $body.='</div>';//container
 $body.='</div>';//container-fluid

@@ -29,9 +29,9 @@ if ($_SESSION['expires'] < time() - 7) {
   $_SESSION['expires'] = time();
 }
 
-if($_GET['did']!=null){
-  $sql='select * from device where id='.$_GET['did'];
-  $rst_did=selectData(DB_NAME,$sql);
+if($_GET['sid']!=null){
+  $sql='select * from soft where id='.$_GET['sid'];
+  $rst_sid=selectData(DB_NAME,$sql);
 }
 
 //ナビバー=========================================
@@ -56,8 +56,8 @@ $body.='<div class="collapse navbar-collapse" id="nav-menu-1">';
 //左側
 $body.='<ul class="nav navbar-nav">';
 $body.='<li id="listrun" class="bankmenu"><a tabindex="-1">資産管理</a></li>';
-$body.='<li id="list" class="active applymenu"><a href="#" tabindex="-1">機器リスト</a></li>';
-$body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
+$body.='<li id="list" class="applymenu"><a href="../index.php" tabindex="-1">機器リスト</a></li>';
+$body.='<li  class="active applymenu"><a href="../softindex.php" tabindex="-1">ソフトリスト</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='</ul>';
@@ -71,16 +71,20 @@ $body.='</ul>';
 $body.='</div>';
 $body.='</div>';
 $body.='</nav>';
+
 //隙間調整=========================================
 $body.='<div id="topspace" style="height:70px;"></div>';
+
 //クラスと変数=====================================
 $body.='<input id="did" class="hidden" value="'.$_GET['did'].'">';
+$body.='<input id="sid" class="hidden" value="'.$_GET['sid'].'">';
+
 //--------------------------------------------------
 $body.='<div class="container-fluid">';
 $body.='<div class="container">';
 $body.='<h2>';
-$body.='機器情報　';
-if($_GET['did']==null){
+$body.='ソフトウェア情報　';
+if($_GET['sid']==null){
   $body.='<追加>';
 }else{
   $body.='<変更>';
@@ -88,84 +92,50 @@ if($_GET['did']==null){
 $body.='</h2><hr />';
 $body.='<div class="well" style="padding:25px 30px 25px 30px;">';
 //---------------------------------------------------
-$sql_cate='select * from category';
-$rst_cate=selectData(DB_NAME,$sql_cate);
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon1">種　　別</span>';
-$body.='<select id="category" class="form-control">';
-if($_GET['did']==null){
-  $body.='<option selected>　</option>';
-} 
-for($i=0;$i<count($rst_cate);$i++){
-  $body.='<option value="'.($i+1).'"';
-  if(($i+1)==$rst_did[0]['category']){
-    $body.='selected>';
-  }else{
-    $body.='>';
-  }
-  $body.=$rst_cate[$i]['name'].'</option>';
-}
-$body.='</select>';
-$body.='</div>';
-//--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon2">メーカー</span>';
-$body.='<input type="text" id="maker" class="form-control" value="'.$rst_did[0]['maker'].'">';
-$body.='</div>';
-//--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon3">型　　番</span>';
-$body.='<input type="text" id="type" class="form-control" value="'.$rst_did[0]['type'].'">';
-$body.='</div>';
-//--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon4">製造番号</span>';
-$body.='<input type="text" id="lot" class="form-control" value="'.$rst_did[0]['lot'].'">';
-$body.='</div>';
-//--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon5">購入日　</span>';
-$body.='<input type="text" id="buydate" class="datepicker form-control" value="'.$rst_did[0]['buydate'].'">';
-$body.='</div>';
-//--------------------
-$sql_man='select * from employee';
-$rst_man=selectData('master',$sql_man);
 
 $body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon6">所有者　</span>';
-$body.='<select id="owner" class="form-control">';
-if($_GET['did']==null || $rst_did[0]['owner']==0){
-  $body.='<option selected>　</option>';
-} 
-for($i=0;$i<count($rst_man);$i++){
-  $body.='<option value="'.$rst_man[$i]['id'].'"';
-  if($rst_man[$i]['id']==$rst_did[0]['owner']){
-    $body.='selected';
-  }
-  $body.='>'.$rst_man[$i]['person_name'].'</option>';
-}
-$body.='</select>';
+$body.='<span class="input-group-addon" id="sizing-addon2">　名　称　</span>';
+$body.='<input type="text" id="name" class="form-control" value="'.$rst_sid[0]['name'].'">';
 $body.='</div>';
 //--------------------
 $body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
-$body.='<span class="input-group-addon" id="sizing-addon1">備　　考</span>';
-$body.='<input type="text" id="desc" class="form-control" value="'.$rst_did[0]['description'].'">';
+$body.='<span class="input-group-addon" id="sizing-addon2">バージョン</span>';
+$body.='<input type="text" id="ver" class="form-control" value="'.$rst_sid[0]['ver'].'">';
+$body.='</div>';
+//--------------------
+$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<span class="input-group-addon" id="sizing-addon4">製造番号　</span>';
+$body.='<input type="text" id="lot" class="form-control" value="'.$rst_sid[0]['lot'].'">';
+$body.='</div>';
+//--------------------
+$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<span class="input-group-addon" id="sizing-addon3">ライセンス</span>';
+$body.='<input type="text" id="license" class="form-control" value="'.$rst_sid[0]['license'].'">';
+$body.='</div>';
+//--------------------
+$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<span class="input-group-addon" id="sizing-addon5">購　入　日</span>';
+$body.='<input type="text" id="buydate" class="datepicker form-control" value="'.$rst_sid[0]['buydate'].'">';
+$body.='</div>';
+//--------------------
+$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<span class="input-group-addon" id="sizing-addon1">　備　考　</span>';
+$body.='<input type="text" id="desc" class="form-control" value="'.$rst_sid[0]['description'].'">';
 $body.='</div>';
 //--------------------
 $body.='</div>';
-if($rst_did!=null){
+if($rst_sid!=null){
   $body.='<button id="deletebtn" class="btn btn-danger btn-lg pull-right">削除</button>';
   $body.='<button id="changebtn" class="btn btn-warning btn-lg pull-right" disabled="disabled" style="margin:0 50px 0 0;">変更</button>';
 }else{
   $body.='<button id="addbtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">追加</button>';
-
 }
 
 //---------------------------------------------------
 $body.='</div>';//container
 $body.='</div>';//container-fluid
 //ヘッダー===========================================
-$header ='<script type="text/javascript" src="editdevice.js"></script>';
+$header ='<script type="text/javascript" src="editsoft.js"></script>';
 $header.='<style type="text/css">';
 $header.='<!--
   .input-group{

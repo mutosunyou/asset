@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../master/prefix.php');
+require_once('master/prefix.php');
 
 $sql='select softID from link where deviceID='.$_POST['did'];
 $rst=selectData(DB_NAME,$sql);
@@ -45,7 +45,7 @@ $body .= '<table class="table table-condensed table-striped table-bordered">';
 foreach($pname as $key => $value){
   $body .= '<th class="sorter" name='.$value.'>'.$key.'</th>';
 }
-//$body .= '<th style="text-align:left;width:50px;">編集</th>';
+$body .= '<th style="text-align:left;width:50px;">編集</th>';
 for($i=0;$i<count($cst);$i++){//指定されたuserIDのデータ全て
   $sql='select * from soft where id='.$cst[$i]['id'];
   $rst=selectData(DB_NAME,$sql);
@@ -63,7 +63,7 @@ for($i=0;$i<count($cst);$i++){//指定されたuserIDのデータ全て
   }
   $body.='</td>';
   $body .='<td style="nowrap">'.$rst[0]['description'].'</td>';
-  //$body .='<td style="nowrap"><button class="btn btn-xs btn-warning soft" sid='.$rst[0]['id'].'>編集</button></td>';
+  $body .='<td style="nowrap"><button class="btn btn-xs btn-warning soft" sid='.$rst[0]['id'].'>編集</button></td>';
   $body .='</tr>';
 }
 $body .= '</table>';

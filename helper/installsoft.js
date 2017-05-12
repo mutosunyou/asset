@@ -15,9 +15,8 @@ $(function() {
   $('#finderfld').val(localStorage.assetSearchKey);
   $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});//カレンダーから日付を選ぶ
   reloadTable();
-
 //ボタン======================================================
-  $('#softlist').on('click', '.sorter', function (ev){
+  $('#softlister').on('click','.sorter', function (ev){
     localStorage.assetpage = 1;
     if (localStorage.assetSortKey == $(ev.target).attr('name')) {
       if (localStorage.assetSortOrder == 'asc') {
@@ -32,12 +31,19 @@ $(function() {
     reloadTable();
   });
 
-
-//編集ボタン押す
-  $('#softlist').on('click', '.soft', function (ev){
-   location.href="editsoft.php?sid="+$(ev.target).attr('sid');
+  $('#softlister').on('click', '.addsoft', function (ev){
+    $.post(
+      "addsoftsql.php",
+      {
+        "did":$('#did').val(),
+        "sid":$(ev.target).attr('sid')
+      },
+      function(data){
+        console.log(data);
+        location.href="softlist.php?did="+$('#did').val();
+      }
+    );
   });
-
 
 //検索ボタン押された
   $('#finderbtn').click( function (){
@@ -61,7 +67,7 @@ $(function() {
 //アンケートを表示する。
 function reloadTable(){
   $.post(
-    "softlister.php",
+    "installsoftlister.php",
     {
       "did":$('#did').val(),
       "sortKey": localStorage.assetSortKey,
@@ -69,9 +75,8 @@ function reloadTable(){
       "searchKey": localStorage.assetSearchKey
     },
     function(data){
-      $('#softlist').html(data);
+      $('#softlister').html(data);
     }
   );
 }
 
- 

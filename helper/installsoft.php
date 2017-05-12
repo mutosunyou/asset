@@ -80,64 +80,69 @@ $body.='<div class="container-fluid">';
 $body.='<div class="container">';
 
 //==================================
-$body.='<h3>機器情報</h3>';
-$sql='select * from device where id='.$_GET['did'];
+$body.='<h3>インストール済みソフトウェア</h3>';
+$sql='select softID from link where deviceID='.$_GET['did'];
+$rst_soft=selectData(DB_NAME,$sql);
+$sql = 'select * from soft where id in (';
+for($i=0;$i<count($rst_soft);$i++){
+  $sql.=$rst_soft[$i]['softID'];
+  if($i!=(count($rst_soft)-1)){
+    $sql.=',';
+  }
+}
+$sql.=') and isalive=1 ';
 $rst=selectData(DB_NAME,$sql);
-
+//var_dump($rst);
 $pname = array(
-  "種別"=>"name".' style="text-align:left;width:50px;"',
-  "メーカー"=>"maker".' style="text-align:left;width:100px;"',
+  "名称"=>"name".' style="text-align:left;width:50px;"',
+  "バージョン"=>"ver".' style="text-align:left;width:100px;"',
   "製造番号"=>"lot".' style="text-align:left;width:50px;"',
-  "型番"=>"type".' style="text-align:left;width:50px;"',
+  "ライセンス"=>"license".' style="text-align:left;width:50px;"',
   "購入日"=>"buydate".' style="text-align:left;width:50px;"',
-  "ユーザー"=>"owner".' style="text-align:left;width:50px;"',
-  "備考"=>"description".' style="text-align:left;width:50px;"',
+  "備考"=>"description".' style="text-align:left;width:50px;"'
 );
-$sql='select * from category';
-$rst_cate=selectData(DB_NAME,$sql);
 //表
 $body .= '<table class="table table-condensed table-striped table-bordered">';
 foreach($pname as $key => $value){
   $body .= '<th class="sorter" name='.$value.'>'.$key.'</th>';
 }
-$body .='<tr>';
-$body .='<td style="nowrap">'.$rst_cate[$rst[0]['category']-1]['name'].'</td>';
-$body .='<td style="nowrap">'.$rst[0]['maker'].'</td>';
-$body .='<td style="nowrap">'.$rst[0]['lot'].'</td>';
-$body .='<td style="nowrap">'.$rst[0]['type'].'</td>';
-$body .='<td style="nowrap">';
-if($rst[0]['buydate']!=null){
-  $body.=date('Y-m-d',strtotime($rst[0]['buydate']));
-}else{
-  $body.=' ';
+for($i=0;$i<count($rst);$i++){
+  $body .='<tr>';
+  $body .='<td style="nowrap">'.$rst[$i]['name'].'</td>';
+  $body .='<td style="nowrap">'.$rst[$i]['ver'].'</td>';
+  $body .='<td style="nowrap">'.$rst[$i]['lot'].'</td>';
+  $body .='<td style="nowrap">'.$rst[$i]['license'].'</td>';
+  $body .='<td style="nowrap">';
+  if($rst[$i]['buydate']!=null){
+    $body.=date('Y-m-d',strtotime($rst[$i]['buydate']));
+  }else{
+    $body.=' ';
+  }
+  $body.='</td>';
+  $body .='<td style="nowrap">'.$rst[$i]['description'].'</td>';
+  $body .='</tr>';
 }
-$body.='</td>';
-$body .='<td style="nowrap">'.nameFromUserID($rst[0]['owner']).'</td>';
-$body .='<td style="nowrap">'.$rst[0]['description'].'</td>';
-$body .='</tr>';
 $body .= '</table>';
 //==================================
 
 $body.='<div class="clearfix"></div>';
 $body.='<hr>';
 //==================================
-$body.='<h3>インストール済みソフトウェア</h3>';
+$body.='<h3>未インストールソフト</h3>';
 $body .= '<div class="pull-right form-inline">';
 
 $body .='<input id="finderfld" class="form-control" type="text">';
 $body .='<a id="finderbtn" class="btn btn-default" style="margin:0 10px 0 10px;">検索</a>';
-$body .='<a class="btn btn-success" href="installsoft.php?did='.$_GET['did'].'">追加</a>';
+
 $body .='</div>';
 $body .='<div class="clearfix"></div><br>';
 //===ソフトリスト
-$body.='<div id="softlist"></div>';
-//==================================
-
+$body .='<div id="softlister"></div><br>';
 $body.='</div>';//container
 $body.='</div>';//container-fluid
 
 //ヘッダー===========================================
-$header ='<script type="text/javascript" src="soft.js"></script>';
+$header ='<script type="text/javascript" src="installsoft.js"></script>';
 $header.='<style type="text/css">';
 $header.='<!--
   .input-group{

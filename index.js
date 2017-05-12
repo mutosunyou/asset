@@ -50,11 +50,12 @@ $(function() {
     reloadTable();
   });
 
-//ページボタン押す
   $('#devicelist').on('click', '.soft', function (ev){
    location.href="helper/softlist.php?did="+$(ev.target).attr('sid');
   });
-
+  $('#devicelist').on('click', '.edit', function (ev){
+   location.href="helper/editdevice.php?did="+$(ev.target).attr('sid');
+  });
 
 //検索ボタン押された
   $('#finderbtn').click( function (){

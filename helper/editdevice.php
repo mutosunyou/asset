@@ -56,7 +56,7 @@ $body.='<div class="collapse navbar-collapse" id="nav-menu-1">';
 //左側
 $body.='<ul class="nav navbar-nav">';
 $body.='<li id="listrun" class="bankmenu"><a tabindex="-1">資産管理</a></li>';
-$body.='<li id="list" class="active applymenu"><a href="#" tabindex="-1">機器リスト</a></li>';
+$body.='<li id="list" class="active applymenu"><a href="../index.php" tabindex="-1">機器リスト</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';

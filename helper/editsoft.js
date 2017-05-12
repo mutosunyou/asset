@@ -1,28 +1,29 @@
 //初期動作====================================================
 $(function() {
   var checkflg=0;
-  pcate=$('#category').val();
-  pmaker=$('#maker').val();
-  ptype=$('#type').val();
+  pname=$('#name').val();
+  pver=$('#ver').val();
+  plicense=$('#license').val();
   plot=$('#lot').val();
   pbuydate=$('#buydate').val();
-  powner=$('#owner').val();
   pdesc=$('#desc').val();
 
   $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});//カレンダーから日付を選ぶ
 
   $('*').change(function(){
-    if($('#category').val()!=pcate || $('#maker').val()!=pmaker || $('#type').val()!=ptype || $('#lot').val()!=plot || $('#buydate').val()!=pbuydate || $('#owner').val()!=powner || $('#desc').val()!=pdesc ){
+    if($('#name').val()!=pname || $('#ver').val()!=pver || $('#license').val()!=plicense || $('#lot').val()!=plot || $('#buydate').val()!=pbuydate || $('#desc').val()!=pdesc ){
       $('#changebtn').removeAttr('disabled');
     }else{
       $('#changebtn').attr('disabled', 'disabled');//disabled属性を付与する
     }
-    if($('#category').val().length>0 && $('#owner').val().length>0 ){
+    
+    if($('#name').val().length>0){
       $('#addbtn').removeAttr('disabled');
     }else{
       $('#addbtn').attr('disabled', 'disabled');//disabled属性を付与する
     }
   });
+
 
   //ボタン======================================================
   //検索ボタン押された
@@ -39,12 +40,13 @@ $(function() {
 
 function change(){
   $.post(
-    "changedevice.php",
+    "changesoft.php",
     {
+      "sid":$('#sid').val(),
       "did":$('#did').val(),
-      "category": $('#category').val(),
-      "maker": $('#maker').val(),
-      "type": $('#type').val(),
+      "name": $('#name').val(),
+      "ver": $('#ver').val(),
+      "license": $('#license').val(),
       "lot": $('#lot').val(),
       "buydate": $('#buydate').val(),
       "owner": $('#owner').val(),
@@ -52,17 +54,18 @@ function change(){
     },
     function(data){
       console.log(data);
-      location.href="../index.php";
+      location.href="../softindex.php";
     }
   );
 }
 function add(){
   $.post(
-    "adddevice.php",
+    "addsoft.php",
     {
-      "category": $('#category').val(),
-      "maker": $('#maker').val(),
-      "type": $('#type').val(),
+      "did":$('#did').val(),
+      "name": $('#name').val(),
+      "ver": $('#ver').val(),
+      "license": $('#license').val(),
       "lot": $('#lot').val(),
       "buydate": $('#buydate').val(),
       "owner": $('#owner').val(),
@@ -70,19 +73,20 @@ function add(){
     },
     function(data){
        console.log(data);
-      location.href="../index.php";
+      location.href="../softindex.php";
     }
   );
 }
 function del(){
   $.post(
-    "deletedevice.php",
+    "deletesoft.php",
     {
-      "did": $('#did').val()    
+      "did":$('#did').val(),
+      "sid": $('#sid').val()    
     },
     function(data){
        console.log(data);
-      location.href="../index.php";
+      location.href="../softindex.php";
     }
   );
 }

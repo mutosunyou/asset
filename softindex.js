@@ -35,7 +35,7 @@ $(function() {
 
 //編集ボタン押す
   $('#softlist').on('click', '.soft', function (ev){
-   location.href="editsoft.php?sid="+$(ev.target).attr('sid');
+   location.href="helper/editsoft.php?sid="+$(ev.target).attr('sid');
   });
 
 
@@ -61,9 +61,8 @@ $(function() {
 //アンケートを表示する。
 function reloadTable(){
   $.post(
-    "softlister.php",
+    "softindexlister.php",
     {
-      "did":$('#did').val(),
       "sortKey": localStorage.assetSortKey,
       "sortOrder": localStorage.assetSortOrder,
       "searchKey": localStorage.assetSearchKey

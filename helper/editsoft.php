@@ -92,45 +92,48 @@ if($_GET['sid']==null){
 $body.='</h2><hr />';
 $body.='<div class="well" style="padding:25px 30px 25px 30px;">';
 //---------------------------------------------------
-
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon2">　名　称　</span>';
 $body.='<input type="text" id="name" class="form-control" value="'.$rst_sid[0]['name'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon2">バージョン</span>';
 $body.='<input type="text" id="ver" class="form-control" value="'.$rst_sid[0]['ver'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon4">製造番号　</span>';
 $body.='<input type="text" id="lot" class="form-control" value="'.$rst_sid[0]['lot'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon3">ライセンス</span>';
 $body.='<input type="text" id="license" class="form-control" value="'.$rst_sid[0]['license'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon5">購　入　日</span>';
 $body.='<input type="text" id="buydate" class="datepicker form-control" value="'.$rst_sid[0]['buydate'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon1">　備　考　</span>';
 $body.='<input type="text" id="desc" class="form-control" value="'.$rst_sid[0]['description'].'">';
 $body.='</div>';
 //--------------------
+
+//--------------------
 $body.='</div>';
 if($rst_sid!=null){
-  $body.='<button id="deletebtn" class="btn btn-danger btn-lg pull-right">削除</button>';
-  $body.='<button id="changebtn" class="btn btn-warning btn-lg pull-right" disabled="disabled" style="margin:0 50px 0 0;">変更</button>';
+  $body.='<button id="deletebtn" class="btn btn-danger btn pull-right">削除</button>';
+  $body.='<button id="changebtn" class="btn btn-warning btn pull-right" disabled="disabled" style="margin:0 50px 0 0;">変更</button>';
 }else{
-  $body.='<button id="addbtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">追加</button>';
+  $body.='<button id="addbtn" class="btn btn-primary btn pull-right" disabled="disabled">追加</button>';
 }
-
+$body.='<div class="clearfix"></div><hr>';
+$body.='<h3>インストール機器一覧</h3>';
+$body.='<div id="devicelist"></div>';
 //---------------------------------------------------
 $body.='</div>';//container
 $body.='</div>';//container-fluid

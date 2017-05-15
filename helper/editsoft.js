@@ -8,6 +8,8 @@ $(function() {
   pbuydate=$('#buydate').val();
   pdesc=$('#desc').val();
 
+  reloadTable();
+
   $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});//カレンダーから日付を選ぶ
 
   $('*').change(function(){
@@ -29,12 +31,18 @@ $(function() {
   //検索ボタン押された
   $('#changebtn').click( function (){
     change();
+    reloadTable();
   });
   $('#addbtn').click( function (){
     add();
+    reloadTable();
   }); 
- $('#deletebtn').click( function (){
+  $('#deletebtn').click( function (){
     del();
+    reloadTable();
+  }); 
+  $('#devicelist').on('click','.dev', function (ev){
+    location.href="softlist.php?did="+$(ev.target).attr('devid'); 
   }); 
 });
 
@@ -87,6 +95,20 @@ function del(){
     function(data){
        console.log(data);
       location.href="../softindex.php";
+    }
+  );
+}
+
+//アンケートを表示する。
+function reloadTable(){
+  //console.log($('#sid').val());
+  $.post(
+    "deviceinsoft.php",
+    {
+      "sid":$('#sid').val()
+    },
+    function(data){
+      $('#devicelist').html(data);
     }
   );
 }

@@ -57,7 +57,7 @@ $body.='<div class="collapse navbar-collapse" id="nav-menu-1">';
 $body.='<ul class="nav navbar-nav">';
 $body.='<li id="listrun" class="bankmenu"><a tabindex="-1">資産管理</a></li>';
 $body.='<li id="list" class="active applymenu"><a href="../index.php" tabindex="-1">機器リスト</a></li>';
-$body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
+$body.='<li  class="applymenu"><a href="../softindex.php" tabindex="-1">ソフトリスト</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='</ul>';
@@ -90,7 +90,7 @@ $body.='<div class="well" style="padding:25px 30px 25px 30px;">';
 //---------------------------------------------------
 $sql_cate='select * from category';
 $rst_cate=selectData(DB_NAME,$sql_cate);
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon1">種　　別</span>';
 $body.='<select id="category" class="form-control">';
 if($_GET['did']==null){
@@ -108,22 +108,22 @@ for($i=0;$i<count($rst_cate);$i++){
 $body.='</select>';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon2">メーカー</span>';
 $body.='<input type="text" id="maker" class="form-control" value="'.$rst_did[0]['maker'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon3">型　　番</span>';
 $body.='<input type="text" id="type" class="form-control" value="'.$rst_did[0]['type'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon4">製造番号</span>';
 $body.='<input type="text" id="lot" class="form-control" value="'.$rst_did[0]['lot'].'">';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon5">購入日　</span>';
 $body.='<input type="text" id="buydate" class="datepicker form-control" value="'.$rst_did[0]['buydate'].'">';
 $body.='</div>';
@@ -131,7 +131,7 @@ $body.='</div>';
 $sql_man='select * from employee';
 $rst_man=selectData('master',$sql_man);
 
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon6">所有者　</span>';
 $body.='<select id="owner" class="form-control">';
 if($_GET['did']==null || $rst_did[0]['owner']==0){
@@ -147,20 +147,18 @@ for($i=0;$i<count($rst_man);$i++){
 $body.='</select>';
 $body.='</div>';
 //--------------------
-$body.='<div class="input-group input-group-lg" style="margin:0 0 10px 0;">';
+$body.='<div class="input-group input-group" style="margin:0 0 10px 0;">';
 $body.='<span class="input-group-addon" id="sizing-addon1">備　　考</span>';
 $body.='<input type="text" id="desc" class="form-control" value="'.$rst_did[0]['description'].'">';
 $body.='</div>';
 //--------------------
 $body.='</div>';
 if($rst_did!=null){
-  $body.='<button id="deletebtn" class="btn btn-danger btn-lg pull-right">削除</button>';
-  $body.='<button id="changebtn" class="btn btn-warning btn-lg pull-right" disabled="disabled" style="margin:0 50px 0 0;">変更</button>';
+  $body.='<button id="deletebtn" class="btn btn-danger btn pull-right">削除</button>';
+  $body.='<button id="changebtn" class="btn btn-warning btn pull-right" disabled="disabled" style="margin:0 50px 0 0;">変更</button>';
 }else{
-  $body.='<button id="addbtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">追加</button>';
-
+  $body.='<button id="addbtn" class="btn btn-primary btn pull-right" disabled="disabled">追加</button>';
 }
-
 //---------------------------------------------------
 $body.='</div>';//container
 $body.='</div>';//container-fluid

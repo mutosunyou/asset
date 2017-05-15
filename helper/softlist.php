@@ -53,7 +53,7 @@ $body.='<div class="collapse navbar-collapse" id="nav-menu-1">';
 $body.='<ul class="nav navbar-nav">';
 $body.='<li id="listrun" class="bankmenu"><a tabindex="-1">資産管理</a></li>';
 $body.='<li id="list" class="active applymenu"><a href="../index.php" tabindex="-1">機器リスト</a></li>';
-$body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
+$body.='<li  class="applymenu"><a href="../softindex.php" tabindex="-1">ソフトリスト</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='</ul>';
@@ -115,9 +115,8 @@ $body.='</td>';
 $body .='<td style="nowrap">'.nameFromUserID($rst[0]['owner']).'</td>';
 $body .='<td style="nowrap">'.$rst[0]['description'].'</td>';
 $body .='</tr>';
-$body .= '</table>';
+$body .='</table>';
 //==================================
-
 $body.='<div class="clearfix"></div>';
 $body.='<hr>';
 //==================================
@@ -130,7 +129,7 @@ $body .='<a class="btn btn-success" href="installsoft.php?did='.$_GET['did'].'">
 $body .='</div>';
 $body .='<div class="clearfix"></div><br>';
 //===ソフトリスト
-$body.='<div id="softlist"></div>';
+$body .='<div id="softlist"></div>';
 //==================================
 
 $body.='</div>';//container

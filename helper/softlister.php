@@ -2,7 +2,7 @@
 session_start();
 require_once('../master/prefix.php');
 
-$sql='select softID from link where deviceID='.$_POST['did'];
+$sql='select softID from link where isalive=1 and deviceID='.$_POST['did'];
 $rst=selectData(DB_NAME,$sql);
 
 $sql = 'select id from soft where isalive=1 ';
@@ -14,7 +14,7 @@ if($_POST['did']!=null){
       $sql.=',';
     }
   }
-$sql.=') ';
+  $sql.=') ';
 }
 if (isset($_POST['searchKey']) && strlen($_POST['searchKey']) > 0) {
   $sql .= ' and (name like "%'.$_POST['searchKey'].'%" or ver like "%'.$_POST['searchKey'].'%" or lot like "%'.$_POST['searchKey'].'%" or description like "%'.$_POST['searchKey'].'%" or license like "%'.$_POST['searchKey'].'%")';
@@ -45,16 +45,19 @@ $body .= '<table class="table table-condensed table-striped table-bordered">';
 foreach($pname as $key => $value){
   $body .= '<th class="sorter" name='.$value.'>'.$key.'</th>';
 }
-//$body .= '<th style="text-align:left;width:50px;">編集</th>';
+$body .= '<th style="text-align:left;width:50px;">アンインストール</th>';
 for($i=0;$i<count($cst);$i++){//指定されたuserIDのデータ全て
   $sql='select * from soft where id='.$cst[$i]['id'];
   $rst=selectData(DB_NAME,$sql);
+
+  $sql='select * from link where isalive=1 and softID='.$cst[$i]['id'];
+  $rst_li=selectData(DB_NAME,$sql);
   $body .='<tr>';
   //$body .='<td style="nowrap"><a href="editsoft.php?did='.$_POST['did'].'&sid='.$rst[0]['id'].'">'.$rst[0]['id'].'</a></td>';
   $body .='<td style="nowrap">'.$rst[0]['name'].'</td>';
   $body .='<td style="nowrap">'.$rst[0]['ver'].'</td>';
   $body .='<td style="nowrap">'.$rst[0]['lot'].'</td>';
-  $body .='<td style="nowrap">'.$rst[0]['license'].'</td>';
+  $body .='<td style="nowrap">'.count($rst_li).'／'.$rst[0]['license'].'</td>';
   $body .='<td style="nowrap">';
   if($rst[0]['buydate']!=null){
     $body.=date('Y-m-d',strtotime($rst[0]['buydate']));
@@ -63,7 +66,7 @@ for($i=0;$i<count($cst);$i++){//指定されたuserIDのデータ全て
   }
   $body.='</td>';
   $body .='<td style="nowrap">'.$rst[0]['description'].'</td>';
-  //$body .='<td style="nowrap"><button class="btn btn-xs btn-warning soft" sid='.$rst[0]['id'].'>編集</button></td>';
+  $body .='<td style="nowrap"><button class="btn btn-xs btn-danger uninstall" sid='.$rst[0]['id'].'>アンインストール</button></td>';
   $body .='</tr>';
 }
 $body .= '</table>';

@@ -33,9 +33,19 @@ $(function() {
   });
 
 
-//編集ボタン押す
-  $('#softlist').on('click', '.soft', function (ev){
-   location.href="editsoft.php?sid="+$(ev.target).attr('sid');
+  //編集ボタン押す
+  $('#softlist').on('click', '.uninstall', function (ev){
+    $.post(
+      "uninstall.php",
+      {
+        "did":$('#did').val(),
+        "sid":$(ev.target).attr('sid'),
+      },
+      function(data){
+        console.log(data);
+        reloadTable();
+      }
+    );
   });
 
 

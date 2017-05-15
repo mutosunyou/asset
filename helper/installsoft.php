@@ -53,7 +53,7 @@ $body.='<div class="collapse navbar-collapse" id="nav-menu-1">';
 $body.='<ul class="nav navbar-nav">';
 $body.='<li id="listrun" class="bankmenu"><a tabindex="-1">資産管理</a></li>';
 $body.='<li id="list" class="active applymenu"><a href="../index.php" tabindex="-1">機器リスト</a></li>';
-$body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
+$body.='<li  class="applymenu"><a href="../softindex.php" tabindex="-1">ソフトリスト</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='<li  class="applymenu"><a href="#" tabindex="-1">　　　</a></li>';
 $body.='</ul>';
@@ -81,7 +81,7 @@ $body.='<div class="container">';
 
 //==================================
 $body.='<h3>インストール済みソフトウェア</h3>';
-$sql='select softID from link where deviceID='.$_GET['did'];
+$sql='select softID from link where isalive=1 and deviceID='.$_GET['did'];
 $rst_soft=selectData(DB_NAME,$sql);
 $sql = 'select * from soft where id in (';
 for($i=0;$i<count($rst_soft);$i++){
@@ -93,6 +93,8 @@ for($i=0;$i<count($rst_soft);$i++){
 $sql.=') and isalive=1 ';
 $rst=selectData(DB_NAME,$sql);
 //var_dump($rst);
+
+
 $pname = array(
   "名称"=>"name".' style="text-align:left;width:50px;"',
   "バージョン"=>"ver".' style="text-align:left;width:100px;"',
@@ -107,11 +109,14 @@ foreach($pname as $key => $value){
   $body .= '<th class="sorter" name='.$value.'>'.$key.'</th>';
 }
 for($i=0;$i<count($rst);$i++){
+  $sql='select * from link where isalive=1 and softID='.$rst[$i]['id'];
+  $rst_li=selectData(DB_NAME,$sql);
+
   $body .='<tr>';
   $body .='<td style="nowrap">'.$rst[$i]['name'].'</td>';
   $body .='<td style="nowrap">'.$rst[$i]['ver'].'</td>';
   $body .='<td style="nowrap">'.$rst[$i]['lot'].'</td>';
-  $body .='<td style="nowrap">'.$rst[$i]['license'].'</td>';
+  $body .='<td style="nowrap">'.count($rst_li).'／'.$rst[$i]['license'].'</td>';
   $body .='<td style="nowrap">';
   if($rst[$i]['buydate']!=null){
     $body.=date('Y-m-d',strtotime($rst[$i]['buydate']));

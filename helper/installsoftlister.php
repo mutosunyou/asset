@@ -3,7 +3,7 @@ session_start();
 require_once('../master/prefix.php');
 
 //クラスと変数=====================================
-$sql='select softID from link where deviceID='.$_POST['did'];
+$sql='select softID from link where isalive=1 and deviceID='.$_POST['did'];
 $rst_soft=selectData(DB_NAME,$sql);
 //===ソフトリスト
 $sql = 'select * from soft where ';
@@ -42,11 +42,14 @@ foreach($pname as $key => $value){
   $body .= '<th class="sorter" name='.$value.'>'.$key.'</th>';
 }
 for($i=0;$i<count($rst);$i++){
+  $sql='select * from link where isalive=1 and softID='.$rst[$i]['id'];
+  $rst_li=selectData(DB_NAME,$sql);
+if(count($rst_li)<$rst[$i]['license']){
   $body .='<tr>';
   $body .='<td style="nowrap">'.$rst[$i]['name'].'</td>';
   $body .='<td style="nowrap">'.$rst[$i]['ver'].'</td>';
   $body .='<td style="nowrap">'.$rst[$i]['lot'].'</td>';
-  $body .='<td style="nowrap">'.$rst[$i]['license'].'</td>';
+  $body .='<td style="nowrap">'.count($rst_li).'／'.$rst[$i]['license'].'</td>';
 
   $body .='<td style="nowrap">';
   if($rst[$i]['buydate']!=null){
@@ -58,6 +61,7 @@ for($i=0;$i<count($rst);$i++){
   $body .='<td style="nowrap">'.$rst[$i]['description'].'</td>';
   $body .='<td style="nowrap"><button class="btn btn-success btn-xs addsoft" sid='.$rst[$i]['id'].'>追加</a></td>';
   $body .='</tr>';
+}
 }
 $body .= '</table>';
 echo $body;

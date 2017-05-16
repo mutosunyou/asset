@@ -27,13 +27,23 @@ $(function() {
   //ボタン======================================================
   //検索ボタン押された
   $('#changebtn').click( function (){
-    change();
+    reset();
+    alertify.confirm("この機器情報を変更しますか？",function(e){
+      if(e){
+        change();
+      }
+    });
   });
   $('#addbtn').click( function (){
     add();
   }); 
- $('#deletebtn').click( function (){
-    del();
+  $('#deletebtn').click( function (){
+    reset();
+    alertify.confirm("この機器を消去しますか？（DB上では情報は閲覧可能）",function(e){
+      if(e){
+        del();
+      }
+    });
   }); 
 });
 
@@ -86,3 +96,17 @@ function del(){
     }
   );
 }
+
+function reset(){
+  $("#toggleCSS").attr("href","../master/js/alertify.default.css");
+  alertify.set({
+    labels:{
+      ok:"OK",
+      cancel:"Cancel"
+    },
+    delay:5000,
+    buttonReverse:true,
+    buttonFocus:"ok"
+  });
+}
+

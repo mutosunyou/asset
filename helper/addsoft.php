@@ -33,8 +33,6 @@ if($_POST["desc"]!=null){
 
 $sql='insert into soft (name,ver,lot,license,buydate,description,isalive) VALUES ('.$name.','.$ver.','.$lot.','.$license.','.$buydate.','.$desc.',1)';
 $sid=insertAI(DB_NAME,$sql);
-var_dump($sid);
-$sql='insert into link (deviceID,softID) VALUES ('.$_POST['did'].','.$sid[1].')';
-deleteFrom(DB_NAME,$sql);
+
 
 

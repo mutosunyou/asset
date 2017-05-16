@@ -35,17 +35,23 @@ $(function() {
 
   //編集ボタン押す
   $('#softlist').on('click', '.uninstall', function (ev){
-    $.post(
-      "uninstall.php",
-      {
-        "did":$('#did').val(),
-        "sid":$(ev.target).attr('sid'),
-      },
-      function(data){
-        console.log(data);
-        reloadTable();
+    reset();
+    alertify.confirm("アンインストールしますか？",function(e){
+      if(e){
+        $.post(
+          "uninstall.php",
+          {
+            "did":$('#did').val(),
+            "sid":$(ev.target).attr('sid'),
+          },
+          function(data){
+            console.log(data);
+            reloadTable();
+          }
+        );
+
       }
-    );
+    });
   });
 
 
@@ -84,4 +90,16 @@ function reloadTable(){
   );
 }
 
+function reset(){
+  $("#toggleCSS").attr("href","../master/js/alertify.default.css");
+  alertify.set({
+    labels:{
+      ok:"OK",
+      cancel:"Cancel"
+    },
+    delay:5000,
+    buttonReverse:true,
+    buttonFocus:"ok"
+  });
+}
  

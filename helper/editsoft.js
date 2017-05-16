@@ -30,16 +30,27 @@ $(function() {
   //ボタン======================================================
   //検索ボタン押された
   $('#changebtn').click( function (){
-    change();
-    reloadTable();
+    reset();
+    alertify.confirm("このソフトウェア情報を変更しますか？",function(e){
+      if(e){
+        change();
+        reloadTable();
+      }
+    });
   });
   $('#addbtn').click( function (){
     add();
     reloadTable();
   }); 
   $('#deletebtn').click( function (){
-    del();
-    reloadTable();
+    reset();
+    alertify.confirm("このソフトウェアを消去しますか？（DB上では情報は閲覧可能）",function(e){
+      if(e){
+        del();
+        reloadTable();
+      }
+    });
+
   }); 
   $('#devicelist').on('click','.dev', function (ev){
     location.href="softlist.php?did="+$(ev.target).attr('devid'); 
@@ -112,3 +123,16 @@ function reloadTable(){
     }
   );
 }
+function reset(){
+  $("#toggleCSS").attr("href","../master/js/alertify.default.css");
+  alertify.set({
+    labels:{
+      ok:"OK",
+      cancel:"Cancel"
+    },
+    delay:5000,
+    buttonReverse:true,
+    buttonFocus:"ok"
+  });
+}
+

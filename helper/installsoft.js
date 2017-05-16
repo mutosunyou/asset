@@ -32,6 +32,9 @@ $(function() {
   });
 
   $('#softlister').on('click', '.addsoft', function (ev){
+       reset();
+    alertify.confirm("インストールしますか？",function(e){
+      if(e){
     $.post(
       "addsoftsql.php",
       {
@@ -41,8 +44,11 @@ $(function() {
       function(data){
         console.log(data);
         location.href="softlist.php?did="+$('#did').val();
+      });
+
       }
-    );
+    });
+
   });
 
 //検索ボタン押された
@@ -78,5 +84,17 @@ function reloadTable(){
       $('#softlister').html(data);
     }
   );
+}
+function reset(){
+  $("#toggleCSS").attr("href","../master/js/alertify.default.css");
+  alertify.set({
+    labels:{
+      ok:"OK",
+      cancel:"Cancel"
+    },
+    delay:5000,
+    buttonReverse:true,
+    buttonFocus:"ok"
+  });
 }
 

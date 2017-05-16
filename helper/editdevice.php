@@ -1,6 +1,6 @@
 <?php
+session_start();
 require_once('../master/prefix.php');
-
 
 //ログイン処理======================================
 $sql = "SELECT * FROM employee";

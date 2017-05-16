@@ -2,8 +2,6 @@
 session_start();
 require_once('../master/prefix.php');
 
-//ローカルホストのみ
-$_SESSION["login_name"]="武藤　一徳";
 
 //ログイン処理======================================
 $sql = "SELECT * FROM employee";
